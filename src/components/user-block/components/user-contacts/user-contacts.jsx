@@ -1,12 +1,15 @@
-import { use } from 'react';
-import { AppContext } from '../../../../context';
+//import { use } from 'react';
+//import { AppContext } from '../../../../context';
+
+import { store } from '../../../../store';
 
 export const UserContacts = () => {
 	//{ email, phone }
 
-	const { userData, dispatch } = use(AppContext);
-	const { name, age, email, phone } = userData;
+	//const { userData, dispatch } = use(AppContext);
+	//const { email, phone } = userData;
 
+	const { email, phone } = store.getState();
 	// const onUserUpdate = () => {
 	// 	const newUserData = { name, age: 25, email, phone };
 	// 	//setUserData({ name, age: 25, email, phone });

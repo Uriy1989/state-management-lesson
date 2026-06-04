@@ -1,19 +1,23 @@
-import { use } from 'react';
-import { AppContext } from '../../../../context';
+//import { use } from 'react';
+//import { AppContext } from '../../../../context'; //теперь считаем его из stare
+
+import { store } from '../../../../store';
 
 export const UserPersonalInfo = () => {
 	//{ name, age }
 
-	const { userData, dispatch } = use(AppContext);
-	const { name, age, email, phone } = userData;
-
+	//const { userData, dispatch } = use(AppContext);
+	//const { name, age, email, phone } = userData;	из context
+	const { name, age } = store.getState();
 	const onUserUpdate = () => {
+		const { name, email, phone } = store.getState();
+
 		const newUserData = { name, age: 25, email, phone };
 		//setUserData({ name, age: 25, email, phone });
-		dispatch({ type: 'SET_USER_DATA', payload: newUserData });
+		store.dispatch({ type: 'SET_USER_DATA', payload: newUserData });
 	};
 	const onUserAge = () => {
-		dispatch({ type: 'SET_USER_AGE', payload: 15 });
+		store.dispatch({ type: 'SET_USER_AGE', payload: 15 });
 	};
 
 	return (

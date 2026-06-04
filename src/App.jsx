@@ -1,11 +1,15 @@
 import './App.css';
 import styles from './styles.module.css';
 
-import { useEffect, useReducer } from 'react'; //useState
+import { useEffect } from 'react'; //useState, useReducer
 
 import { AppContext } from './context';
 import { Header, UserBlock } from './components';
 import { AppContextProvider } from './app-context';
+
+import { store } from './store';
+
+//import { reducer } from './reducer';
 
 const getUserFromServer = () => ({
 	id: 'ee44',
@@ -23,40 +27,24 @@ const getAnotherUserFromServer = () => ({
 	phone: '+7583405843950',
 });
 //хук useReducer расширенная версия хука useState, сначало подготавлеваем , а после устанавливаем
-const reducer = (state, action) => {
-	const { type, payload } = action; //type - название действия ,payload - нагрузка (данные)
-
-	switch (type) {
-		case 'SET_USER_DATA': {
-			return payload;
-			//setUserData(payload);
-			//break;
-		}
-
-		case 'SET_USER_AGE': {
-			return { ...state, age: payload };
-			//setUserData({ ...userData, age: payload });
-			//break;
-		}
-		default:
-		//not doit
-	}
-};
 
 function App() {
 	//const [userData, setUserData] = useState({});
-	const [userData, dispatch] = useReducer(reducer, {});
+	//const [userData, dispatch] = useReducer(reducer, {});
 
 	useEffect(() => {
 		const userDataFromServer = getUserFromServer();
 
-		dispatch({ type: 'SET_USER_DATA', payload: userDataFromServer });
+		store.dispatch({ type: 'SET_USER_DATA', payload: userDataFromServer });
 	}, []);
 
 	const onUserChange = () => {
 		const anotherUserDataFromServer = getAnotherUserFromServer();
 
-		dispatch({ type: 'SET_USER_DATA', payload: anotherUserDataFromServer });
+		store.dispatch({
+			type: 'SET_USER_DATA',
+			payload: anotherUserDataFromServer,
+		});
 	};
 
 	//const { name, age, email, phone } = getUserFromServer();
@@ -64,7 +52,8 @@ function App() {
 
 	return (
 		//<AppContextProvider //{userData, setUserData} - обновляем состояние из любой точки приложения
-		<AppContext value={{ userData, dispatch }}>
+		// <AppContext value={{ userData, dispatch }}>
+		<>
 			<h3>Привет</h3>
 			<div>
 				<Header />
@@ -72,7 +61,8 @@ function App() {
 				<UserBlock />
 				<button onClick={onUserChange}> Сменить пользователя</button>
 			</div>
-		</AppContext>
+		</>
+		// </AppContext>
 	);
 }
 
