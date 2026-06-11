@@ -8,7 +8,7 @@ const createStore = (reducer) => {
 	let state;
 	return {
 		dispatch: (action) => {
-			//длжен подхватить reducer и возвратить новый sate в store
+			//должен подхватить reducer и возвратить новый sate в store
 			state = reducer(state, action); //обновляем текущй state
 
 			console.log(state);

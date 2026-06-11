@@ -1,11 +1,13 @@
 import './App.css';
 import styles from './styles.module.css';
 
-import { useEffect } from 'react'; //useState, useReducer
+import { useEffect, useState } from 'react'; //useState, useReducer
 
 import { AppContext } from './context';
 import { Header, UserBlock } from './components';
 import { AppContextProvider } from './app-context';
+
+import { Render } from './render-for-components';
 
 import { store } from './store';
 
@@ -26,25 +28,33 @@ const getAnotherUserFromServer = () => ({
 	email: 'wewewew@yandex.ru',
 	phone: '+7583405843950',
 });
-//хук useReducer расширенная версия хука useState, сначало подготавлеваем , а после устанавливаем
+//хук useReducer расширенная версия хука useState, сначала подготавливаем , а после устанавливаем
 
 function App() {
 	//const [userData, setUserData] = useState({});
 	//const [userData, dispatch] = useReducer(reducer, {});
 
+	// const [data, setData] = useState({});
+	// setData(store.getState());
+
+	//const [type, setType] = useState({});
+
 	useEffect(() => {
 		const userDataFromServer = getUserFromServer();
 
-		store.dispatch({ type: 'SET_USER_DATA', payload: userDataFromServer });
+		const action = { type: 'SET_USER_DATA', payload: userDataFromServer };
+		store.dispatch(action);
 	}, []);
 
 	const onUserChange = () => {
 		const anotherUserDataFromServer = getAnotherUserFromServer();
 
-		store.dispatch({
+		const action = {
 			type: 'SET_USER_DATA',
 			payload: anotherUserDataFromServer,
-		});
+		};
+
+		store.dispatch(action);
 	};
 
 	//const { name, age, email, phone } = getUserFromServer();
@@ -55,6 +65,7 @@ function App() {
 		// <AppContext value={{ userData, dispatch }}>
 		<>
 			<h3>Привет</h3>
+			<Render state={action.type} />
 			<div>
 				<Header />
 				<hr />
